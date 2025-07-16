@@ -1,2 +1,61 @@
 # openai-api-backend-sample
 用 Node.js + Express 快速串接 OpenAI API
+
+## 安裝
+
+以下將會引導你如何安裝此專案到你的電腦上。
+
+- Node.js v20.18.0
+
+### 取得專案
+
+```
+git clone git@github.com:ellaYang1227/openai-api-backend-sample.git
+```
+
+### 移動到專案內
+
+```
+cd openai-api-backend-sample
+```
+
+### 安裝套件
+
+```
+npm install
+```
+
+### 啟動伺服器
+
+```
+# 生產模式
+npm run start
+
+# 開發模式(自動重啟)
+npm run start:dev
+
+# 生產模式(自動重啟)
+npm run start:prod
+```
+
+### 瀏覽器開啟專案
+
+```
+http://127.0.0.1:3000/
+```
+
+### 環境變數
+請參照 .env.example 檔案新增 .env 檔案：
+
+```
+OPENAI_API_KEY =
+```
+
+## 專案技術
+
+- Node.js v20.18.0
+- dotenv v17.1.0
+- express v5.1.0
+- openai v5.8.3
+- cross-env v7.0.3
+- nodemon v3.1.10
