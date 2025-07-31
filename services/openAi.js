@@ -1,5 +1,6 @@
 const OpenAI = require("openai");
 const calculateBMI = require('./bmi');
+const recommendedRestaurant = require('./recommendedRestaurant');
 
 // 初始化 OpenAI
 const openai = new OpenAI({
@@ -23,7 +24,7 @@ const getAIResponse = async (params) => {
  */
 const handleAiResponseCalculate_bmiFunctionCalling = async (input, output) => {
   const bmiCall = output.find((call) => call.name === "calculate_bmi");
-  console.log("AI 呼叫:", bmiCall);
+  console.log("AI 呼叫 calculate_bmi:", bmiCall);
   // 檢查是否呼叫 calculate_bmi Function calling
   if (bmiCall) {
     // [開始] 2.解析模型的回應並執行本地端 calculateBMI 函式
@@ -41,6 +42,7 @@ const handleAiResponseCalculate_bmiFunctionCalling = async (input, output) => {
       call_id: bmiCall.call_id,
       output: JSON.stringify(bmiResult),
     });
+    console.log('BMI 累積 input', input);
 
     // 獲取最終回答
     const finalResponse = await getAIResponse({
@@ -57,6 +59,46 @@ const handleAiResponseCalculate_bmiFunctionCalling = async (input, output) => {
   return null;
 }
 
+/**
+ * 處理 AI 回應中的推薦餐廳函式呼叫(recommended_restaurant Function calling)
+ * @param {Array<object>} input - 傳送給 AI 模型的輸入歷史陣列
+ * @param {Object} output AI 回應的輸出
+ * @returns {Promise<string|null>} AI 最終回答文字 若沒有呼叫推薦餐廳函式則返回 null
+ */
+const handleAiResponseRecommended_RestaurantFunctionCalling = async (input, output) => {
+  const restaurantCall = output.find((call) => call.name === "recommended_restaurant");
+  console.log("AI 呼叫 recommended_restaurant:", restaurantCall);
+  // 檢查是否呼叫 recommended_restaurant Function calling
+  if (restaurantCall) {
+    // [開始] 2.解析模型的回應並執行本地端 recommendedRestaurant 函式
+    // 獲取餐廳推薦
+    const restaurantResult = recommendedRestaurant();
+    // [結束] 2.解析模型的回應並執行本地端 recommendedRestaurant 函式
+
+    // [開始] 3.提供結果並再次呼叫模型 取得最終回答
+    // 將結果傳回 AI
+    input.push(restaurantCall);
+    input.push({
+      type: "function_call_output",
+      call_id: restaurantCall.call_id,
+      output: JSON.stringify(restaurantResult),
+    });
+    console.log('推薦餐廳 累積 input', input);
+
+    // 獲取最終回答
+    const finalResponse = await getAIResponse({
+      model: "gpt-4o",
+      instructions: "根據餐廳列表回答問題，介紹餐廳特色。",
+      input,
+    });
+
+    console.log("獲取最終回答:", finalResponse, finalResponse.output_text);
+    // [結束] 3.提供結果並再次呼叫模型 取得最終回答
+    return finalResponse.output_text;
+  }
+
+  return null;
+}
 
 /**
  * 處理 AI 查詢
@@ -65,7 +107,7 @@ const handleAiResponseCalculate_bmiFunctionCalling = async (input, output) => {
  */
 const processAIQuery = async (query) => {
   try {
-    // [開始] 1.使用定義的 calculate_bmi 可用工具呼叫模型
+    // [開始] 1.使用定義的 calculate_bmi 或 recommended_restaurant 可用工具呼叫模型
     // 定義可用工具
     const tools = [
       {
@@ -89,6 +131,17 @@ const processAIQuery = async (query) => {
         },
         strict: true
       },
+      {
+        type: "function",
+        name: "recommended_restaurant",
+        description: "隨機推薦幾家餐廳",
+        parameters: {
+          type: "object",
+          properties: {},
+          additionalProperties: false
+        },
+        strict: true
+      }
     ];
 
     // 準備輸入
@@ -98,16 +151,17 @@ const processAIQuery = async (query) => {
     // 第一次 AI 回應
     const response = await getAIResponse({
       model: "gpt-4o",
-      instructions: `你是一個助手，可以回答 BMI 計算的問題。
-    當用戶詢問 BMI 相關問題時，呼叫 calculate_bmi 。
-    使用繁體中文回答，簡潔友善。`,
+      instructions: `你是一個助手，可以回答 BMI 計算和餐廳推薦的問題。
+當用戶詢問 BMI 相關問題時，呼叫 calculate_bmi 。
+當用戶詢問餐廳推薦時，呼叫 recommend_food 。
+使用繁體中文回答，簡潔友善。`,
       input,
       tools,
       tool_choice: "auto",
     });
 
     console.log("第一次 AI 回應:", response);
-    // [結束] 1.使用定義的 calculate_bmi 可用工具呼叫模型
+    // [結束] 1.使用定義的 calculate_bmi 或 recommended_restaurant 可用工具呼叫模型
 
     // 檢查是否有被呼叫
     if (response.output && response.output.length > 0) {
@@ -115,10 +169,15 @@ const processAIQuery = async (query) => {
       const finalAnswerToBMI = await handleAiResponseCalculate_bmiFunctionCalling(input, response.output);
 
       if (finalAnswerToBMI) return finalAnswerToBMI;
+
+      // 獲取餐廳推薦
+      const finalAnswerToRestaurant = await handleAiResponseRecommended_RestaurantFunctionCalling(input, response.output);
+
+      if (finalAnswerToRestaurant) return finalAnswerToRestaurant;
     }
 
     // 如果沒有呼叫，直接返回 AI 回答
-    return '我是一位「AI 智能 BMI 諮詢師」，請提供身高和體重，以便我提供您 BMI 計算後的建議。';
+    return '我擅長「BMI 諮詢與推薦口袋餐廳」，請提供身高和體重或請我推薦餐廳。';
   } catch (error) {
     console.error("處理查詢出錯:", error);
     throw error;
