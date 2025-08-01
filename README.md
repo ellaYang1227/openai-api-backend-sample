@@ -3,7 +3,7 @@
 
 ## 技術筆記
 - [申請 OpenAI 免費額度資格與 API 金鑰](https://perfect-submarine-445.notion.site/OpenAI-API-22697d04e2cb80988cbdf7376ed35ad3?source=copy_link)
-- [用 Node.js + Express 快速串接 OpenAI API(一)：AI 智能 BMI 諮詢](https://perfect-submarine-445.notion.site/Node-js-Express-OpenAI-API-AI-BMI-22b97d04e2cb80069502f8ca24400205)
+- [用 Node.js + Express 快速串接 OpenAI API(1-1)：AI 智能 BMI 諮詢](https://perfect-submarine-445.notion.site/Node-js-Express-OpenAI-API-AI-BMI-22b97d04e2cb80069502f8ca24400205)
 
 ## 安裝
 
