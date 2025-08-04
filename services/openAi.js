@@ -1,5 +1,5 @@
 const OpenAI = require("openai");
-const calculateBMI = require('./bmi');
+const calculateBMI = require('../utils/calculateBMI');
 
 // 初始化 OpenAI
 const openai = new OpenAI({
