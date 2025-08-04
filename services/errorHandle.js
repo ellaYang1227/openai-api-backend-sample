@@ -1,4 +1,6 @@
 const errorMsg = {
+  no_image_url: '請提供圖片 URL',
+  no_answer: '無法生成回答，請稍後再試或聯絡管理員',
   500: '系統錯誤，請洽系統管理員'
 };
 
