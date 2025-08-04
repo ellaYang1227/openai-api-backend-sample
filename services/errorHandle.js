@@ -1,4 +1,6 @@
 const errorMsg = {
+  no_image_url: '請提供圖片 URL',
+  no_label: '這張照片無法生成產品標籤，請更換一張圖片',
   500: '系統錯誤，請洽系統管理員'
 };
 
