@@ -3,6 +3,7 @@
 
 ## 技術筆記
 - [申請 OpenAI 免費額度資格與 API 金鑰](https://perfect-submarine-445.notion.site/OpenAI-API-22697d04e2cb80988cbdf7376ed35ad3?source=copy_link)
+- [用 Node.js + Express 快速串接 OpenAI API(3-1)：AI Whisper 語音轉文字](https://perfect-submarine-445.notion.site/Node-js-Express-OpenAI-API-3-1-AI-Whisper-24797d04e2cb806d9bfaf66335125f4c?source=copy_link)
 
 ## 安裝
 
@@ -51,6 +52,7 @@ http://127.0.0.1:3000/
 請參照 .env.example 檔案新增 .env 檔案：
 
 ```
+OPENAI_BASE_URL = https://api.openai.com/v1
 OPENAI_API_KEY =
 ```
 
@@ -62,3 +64,6 @@ OPENAI_API_KEY =
 - openai v5.8.3
 - cross-env v7.0.3
 - nodemon v3.1.10
+- axios v1.11.0
+- multer v2.0.2
+- form-data v4.0.4
