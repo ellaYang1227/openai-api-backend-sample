@@ -3,6 +3,7 @@
 
 ## 技術筆記
 - [申請 OpenAI 免費額度資格與 API 金鑰](https://perfect-submarine-445.notion.site/OpenAI-API-22697d04e2cb80988cbdf7376ed35ad3?source=copy_link)
+- [用 Node.js + Express 快速串接 OpenAI API(1-4)：AI 募資文案審核](https://perfect-submarine-445.notion.site/Node-js-Express-OpenAI-API-1-4-AI-24997d04e2cb80c8ba2afbb2d39f893d?source=copy_link)
 
 ## 安裝
 
