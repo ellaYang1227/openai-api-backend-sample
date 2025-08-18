@@ -1,4 +1,5 @@
 const errorMsg = {
+  'empty_message': '缺少訊息內容',
   500: '系統錯誤，請洽系統管理員'
 };
 

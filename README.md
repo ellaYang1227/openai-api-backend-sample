@@ -3,6 +3,7 @@
 
 ## 技術筆記
 - [申請 OpenAI 免費額度資格與 API 金鑰](https://perfect-submarine-445.notion.site/OpenAI-API-22697d04e2cb80988cbdf7376ed35ad3?source=copy_link)
+- [用 Node.js + Express 快速串接 OpenAI API(1-5)：AI 智能客服](https://perfect-submarine-445.notion.site/Node-js-Express-OpenAI-API-1-5-AI-25097d04e2cb80199868e9a114bc69a3?source=copy_link)
 
 ## 安裝
 
@@ -51,6 +52,8 @@ http://127.0.0.1:3000/
 請參照 .env.example 檔案新增 .env 檔案：
 
 ```
+DATABASE =
+DATABASE_PASSWORD =
 OPENAI_API_KEY =
 ```
 
@@ -59,6 +62,7 @@ OPENAI_API_KEY =
 - Node.js v20.18.0
 - dotenv v17.1.0
 - express v5.1.0
+- mongoose v8.17.1
 - openai v5.8.3
 - cross-env v7.0.3
 - nodemon v3.1.10
